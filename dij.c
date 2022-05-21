@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<string.h>
-#include<dij.h>
+#include"dij.h"
 #define ls rt<<1
 #define rs rt<<1|1
 #define maxn 10000
+const double Inf=0x3f3f3f3f;
 void quick_sort(long long *num,int l,int r){
 	if(l+1>=r){
 		return ;
@@ -26,7 +27,11 @@ void quick_sort(long long *num,int l,int r){
 
 int find2(long long x,int l,int r)
 {
-	if(l==r)return l;
+	if(l==r) {
+        if(node[l]==x)
+        return l;
+        else return -1;
+    }
 	int mid=(l+r)>>1;
 	if(x>node[mid])return find2(x,mid+1,r);
 	else return find2(x,l,mid);
@@ -58,7 +63,7 @@ void build(int l,int r,int rt)
 {
 	if(l==r)
 	{
-		tr[rt]=inf;
+		tr[rt]=Inf;
 		pos[rt]=l;
 		return;
 	}
@@ -84,11 +89,11 @@ void update(int l,int r,int rt,int p,double w)
 void dijkstra(int s) {
     build(1,cn,1);
     update(1,cn,1,s,0);
-    for(int i=0;i<=maxn;i++)dis[i]=inf;
+    for(int i=0;i<=maxn;i++)dis[i]=Inf;
     dis[s]=0;
-    while (tr[1]!=inf) {
+    while (tr[1]!=Inf) {
         int u=pos[1];
-        update(1,cn,1,u,inf);
+        update(1,cn,1,u,Inf);
         for (int i=head[u];i;i=e[i].nxt)
         {
             int v=e[i].v;double w=e[i].w;
