@@ -150,7 +150,7 @@ void read_node_ed()
     if(flag1==1){
         v=-1;
         printf("The input contains invalid characters, please re-enter(Y) or exit(any other key) \n");
-        gets(a);
+        scanf("%s",a);
         if(a[0]=='Y')
         {
             read_node_st();
@@ -160,10 +160,10 @@ void read_node_ed()
     v= find2(x2,0,cn);
     if(v==-1){
         printf("Cannot find this node, please re-enter(Y) or exit(any other key) \n");
-        gets(a);
+        scanf("%s",a);
         if(a[0]=='Y')
         {
-            read_node_st();
+            read_node_ed();
         }
         else return;
     }
@@ -183,11 +183,12 @@ void print_pre(int i){
 }
 void inteRFace()
 {
-	tile();
-  //  system("cls");
-	welcome();
-
+    welcome();
+    system("cls");
 	while(1){
+        tile();
+        //  system("cls");
+
         makemanu();
       //  system("cls");
         int key=0;
@@ -209,12 +210,15 @@ void inteRFace()
         switch (key) {
             case 0:
                 printf("exit\n");
+                printf("exit successful!\n");
               //  system("cls");
+                system("pause");
                 return;
             case 1:
                 if(b==-1)
                 {
                     printf("No map loading\n");
+                    system("pause");
                     continue;
                 }
                 if(b==0){
@@ -237,14 +241,17 @@ void inteRFace()
                         print_pre(v);
                         printf("\n");
                     }
-                }
+                }system("pause");
                 break;
             case 2:
                 load_map();
+                system("pause");
                 break;
             default:
                 printf("Please enter valid characters\n");
+                system("pause");
                 break;
         }
+        system("cls");
 	}
 }
