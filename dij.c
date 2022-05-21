@@ -1,23 +1,9 @@
 #include<stdio.h>
 #include<string.h>
+#include<dij.h>
 #define ls rt<<1
 #define rs rt<<1|1
-
 #define maxn 10000
-const double inf=0x3f3f3f3f;
-struct edge{
-	int v,nxt;
-	double w;
-}e[maxn];
-struct add_edge{
-    long long u,v;
-    double w;
-}ae[maxn];
-int cn=0;
-double tr[maxn],dis[maxn];
-int cnt=0;
-int head[maxn],pos[maxn],pre[maxn];
-long long node[maxn];
 void quick_sort(long long *num,int l,int r){
 	if(l+1>=r){
 		return ;
@@ -37,6 +23,7 @@ void quick_sort(long long *num,int l,int r){
 	quick_sort(num,l,first);
 	quick_sort(num,first+1,r);
 }
+
 int find2(long long x,int l,int r)
 {
 	if(l==r)return l;
@@ -53,6 +40,7 @@ void add(int u,int v,double w)
 	e[c].nxt=head[u];
 	head[u]=c;
 }
+
 void pushup(int rt)
 {
 	if(tr[ls]<=tr[rs])
@@ -65,6 +53,7 @@ void pushup(int rt)
 		pos[rt]=pos[rs];
 	}
 }
+
 void build(int l,int r,int rt)
 {
 	if(l==r)
@@ -78,6 +67,7 @@ void build(int l,int r,int rt)
 	build(mid+1,r,rs);
 	pushup(rt);
 }
+
 void update(int l,int r,int rt,int p,double w)
 {
 	if(l==r)
@@ -90,6 +80,7 @@ void update(int l,int r,int rt,int p,double w)
 	else update(mid+1,r,rs,p,w);
 	pushup(rt);
 }
+
 void dijkstra(int s) {
     build(1,cn,1);
     update(1,cn,1,s,0);
@@ -107,37 +98,16 @@ void dijkstra(int s) {
     }
 }
 
-void read_map(FILE *file)
+int read_map(FILE *file)
 {
 	if (file == NULL)
     {
         printf("File opened failed, exit.");
+        return -1;
     }
     char temp[55];
     memset(temp,'\0',50);
     char buf[200];
-
-
-    /*while ( (fgets(buf, 200, file)) != NULL) {
-
-    	if(buf[1]=='n')
-    	{
-    		long long Y=1;
-    		long long X=0;
-    		for(int i=9;buf[i]!=' ';i++)
-    		{
-    			if(buf[i]=='-') {
-                    Y = -1;
-                    continue;
-                }
-    			if(buf[i]>='0'&&buf[i]<='9')
-    				X=X*10+buf[i]-'0';
-			}
-			X=X*Y;
-			node[cn]=X;
-			cn++;
-		}
-   }*/
    int k=0;
    while ( (fgets(buf, 200, file)) != NULL) {
 
@@ -235,21 +205,5 @@ void read_map(FILE *file)
        add(U,V,ae[i].w);
        add(V,U,ae[i].w);
    }
-
-}
-int main()
-{
-	FILE *fp=fopen("../Final_Map.map", "r");
-	read_map(fp);
-	long long x,y;
-
-    printf("please enter something");
-	scanf("%lld%lld",&x,&y);
-	int X=find2(x,0,cnt);
-	int Y=find2(y,0,cnt);
-	dijkstra(X);
-	printf("%lf ",dis[Y]);
-    for(int i=Y;i!=0;i=pre[i]){
-        printf("%d ",node[pre[i]]);}
-	return 0;
+    return 0;
 }
