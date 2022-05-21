@@ -98,7 +98,7 @@ void dijkstra(int s) {
         {
             int v=e[i].v;double w=e[i].w;
             if (dis[u]+w<dis[v])
-                dis[v]=dis[u]+w,update(1,cn,1,v,dis[v]),pre[i]=v;
+                dis[v]=dis[u]+w,update(1,cn,1,v,dis[v]),pre[v]=u;
         }
     }
 }

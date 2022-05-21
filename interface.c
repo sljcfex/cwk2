@@ -23,9 +23,11 @@ void tile()
 }
 void welcome()
 {
+
+
     printf("\tWelecome!\n");
     system("pause");
-   // system("cls");
+
 }
 
 void load_map()
@@ -175,11 +177,17 @@ void makemanu()
     printf("0.exit\n");
 }
 
+void print_pre(int i){
+    if(i==u)return;
+    print_pre(pre[i]);
+    printf("-->%lld",node[i]);
+}
 void inteRFace()
 {
 	tile();
-	welcome();
     system("cls");
+	welcome();
+
 	while(1){
         makemanu();
       //  system("cls");
@@ -208,13 +216,14 @@ void inteRFace()
                         return;
                     }
                     dijkstra(u);
-                    if(dis[v]>inf)printf("There's no path between N1 and N2!\n");
+                    if(dis[v]>=inf)printf("There's no path between N1 and N2!\n");
                     else{
                         printf("The shortest path from Node%lld to Node%lld is %lf\n",x1,x2,dis[v]);
                         printf("the path is:\n");
+                        printf("%lld",node[u]);
+                        print_pre(v);
+                        printf("\n");
                     }
-
-
                 }
                 break;
             case 2:
