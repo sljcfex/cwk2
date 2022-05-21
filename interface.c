@@ -33,28 +33,27 @@ void welcome()
 void load_map()
 {
     printf("Import new map(Y) or Using the initial map(Any other key)\n");
-    getchar();
-    gets(a);
+    scanf("%s",a);
     //system("cls");
     if(a[0]=='Y')
     {
         printf("please enter the file name:\n");
 
-        gets(a);
+        scanf("%s",a);
         //system("cls");
         FILE *fp=fopen(a, "r");
         b=read_map(fp);
     }
     else
     {
-        FILE *fp=fopen("../Final_Map.map", "r");
+        FILE *fp=fopen("Final_Map.map", "r");
         b=read_map(fp);
     }
     if(b==-1)
     {
         printf("File reading failure\nDo you want to read again?(Y/Any other key)\n");
 
-        gets(a);
+        scanf("%s",a);
 
         if(a[0]=='Y')load_map();
         else return;
@@ -185,14 +184,28 @@ void print_pre(int i){
 void inteRFace()
 {
 	tile();
-    system("cls");
+  //  system("cls");
 	welcome();
 
 	while(1){
         makemanu();
       //  system("cls");
-        int key;
-        scanf("%d",&key);
+        int key=0;
+        int key1=1;
+        scanf("%s",&a);
+        for(int i=0;i< strlen(a);i++)
+        {
+            if(a[i]>'9'||a[i]<'0')
+            {
+                key1=0;
+                printf("Please enter valid characters\n");
+            }
+            if(a[i]<='9'&&a[i]>=0)
+            {
+                key=key*10+a[i]-'0';
+            }
+        }
+        if(!key1)continue;
         switch (key) {
             case 0:
                 printf("exit\n");
