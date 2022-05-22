@@ -4,6 +4,7 @@
 #include"interface.h"
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+
 struct edge e[maxn];
 struct add_edge ae[maxn];
 struct add_node ad[maxn];
@@ -37,7 +38,7 @@ void load_map()
     printf("Import new map(Y) or Using the initial map(Any other key)\n");
     scanf("%s",a);
     //system("cls");
-    if(a[0]=='Y')
+    if(a[0]=='Y'&&a[1]=='\0')
     {
         printf("please enter the file name:\n");
 
@@ -57,7 +58,7 @@ void load_map()
 
         scanf("%s",a);
 
-        if(a[0]=='Y')load_map();
+        if(a[0]=='Y'&&a[1]=='\0')load_map();
         else return;
     }
     else{
@@ -100,7 +101,7 @@ void read_node_st()
         u=-1;
         printf("The input contains invalid characters, please re-enter(Y) or exit(any other key) \n");
         scanf("%s",a);
-        if(a[0]=='Y')
+        if(a[0]=='Y'&&a[1]=='\0')
         {
             read_node_st();
         }
@@ -110,7 +111,7 @@ void read_node_st()
     if(u==-1){
         printf("Cannot find this node, please re-enter(Y) or exit(any other key) \n");
         scanf("%s",a);
-        if(a[0]=='Y')
+        if(a[0]=='Y'&&a[1]=='\0')
         {
             read_node_st();
         }
@@ -153,7 +154,7 @@ void read_node_ed()
         v=-1;
         printf("The input contains invalid characters, please re-enter(Y) or exit(any other key) \n");
         scanf("%s",a);
-        if(a[0]=='Y')
+        if(a[0]=='Y'&&a[1]=='\0')
         {
             read_node_st();
         }
@@ -163,7 +164,7 @@ void read_node_ed()
     if(v==-1){
         printf("Cannot find this node, please re-enter(Y) or exit(any other key) \n");
         scanf("%s",a);
-        if(a[0]=='Y')
+        if(a[0]=='Y'&&a[1]=='\0')
         {
             read_node_ed();
         }
@@ -200,7 +201,24 @@ void draw(){
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_RenderDrawLineF(renderer,40,5,40,520);
+    SDL_RenderDrawLineF(renderer,40,520,680,520);
     double x11,x22,y11,y22;
+    float x111,x222,y111,y222;
+    for(int i=0;i<=cn;i++)
+    {
+        x11 = ad[i].lat;
+        y11 = ad[i].lon;
+        x11 -= 53.8;
+        x11 *= 65000.0;
+        y11 -= 1.53;
+        y11 *= 25000.0;
+        x111 = (float) x11-50;
+        y111 = (float) y11-350;
+        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_RenderDrawPointF(renderer,x111,y111);
+        SDL_RenderPresent(renderer);
+    }
     for(int i=0;i<=k;i++) {
         int flag1 = 0;
         int flag2 = 0;
@@ -210,31 +228,157 @@ void draw(){
             if (u1 == ad[j].id) {
                 x11 = ad[j].lat;
                 y11 = ad[j].lon;
+                x11 -= 53.8;
+                x11 *= 65000.0;
+                y11 -= 1.53;
+                y11 *= 25000.0;
+                x111 = (float) x11-50;
+                y111 = (float) y11-350;
+                SDL_SetRenderDrawColor(renderer,0,0,0,255);
+                SDL_RenderDrawPointF(renderer,x111,y111);
+                SDL_RenderPresent(renderer);
                 flag1 = 1;
             }
             if (v1 == ad[j].id) {
                 x22 = ad[j].lat;
                 y22 = ad[j].lon;
+                x22 -= 53.8;
+                x22 *= 65000.0;
+                y22 -= 1.53;
+                y22 *= 25000.0;
                 flag2 = 1;
+                x222 = (float) x22-50;
+                y222 = (float) y22-350;
+                SDL_SetRenderDrawColor(renderer,0,0,0,255);
+                SDL_RenderDrawPointF(renderer,x222,y222);
+                SDL_RenderPresent(renderer);
             }
-            if (flag1 && flag2)break;
+            if (flag1 && flag2)
+            {
+                SDL_SetRenderDrawColor(renderer,0,255,0,255);
+                SDL_RenderDrawLineF(renderer,x111,y111,x222,y222);
+                break;
+            }
         }
         if(!flag1||!flag2)continue;
-        x11 -= 53.8;
-        x11 *= 50000.0;
-        x22 -= 53.8;
-        x22 *= 50000.0;
-        y11 -= 1.53;
-        y11 *= 30000.0;
-        y22 -= 1.53;
-        y22 *= 30000.0;
-        float x111 = (float) x11-50;
-        float x222 = (float) x22-50;
-        float y111 = (float) y11-400;
-        float y222 = (float) y22-400;
-        SDL_RenderDrawLineF(renderer,x111,y111,x222,y222);
+
     }
     SDL_RenderPresent(renderer);
+}
+void draw1(int g)
+{
+    if(pre[g]==u)
+    {
+        double x11,x22,y11,y22;
+        float x111,x222,y111,y222;
+        int flag1=0,flag2=0;
+        long long u2=node[g],v2=node[pre[g]];
+        for (int j = 0; j <= cn; j++) {
+            if (u2 == ad[j].id) {
+                x11 = ad[j].lat;
+                y11 = ad[j].lon;
+                x11 -= 53.8;
+                x11 *= 65000.0;
+                y11 -= 1.53;
+                y11 *= 25000.0;
+                x111 = (float) x11 - 50;
+                y111 = (float) y11 - 350;
+                SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+                SDL_RenderDrawPointF(renderer, x111, y111);
+                SDL_RenderPresent(renderer);
+                flag1=1;
+            }
+            if (v2 == ad[j].id) {
+                x22 = ad[j].lat;
+                y22 = ad[j].lon;
+                x22 -= 53.8;
+                x22 *= 65000.0;
+                y22 -= 1.53;
+                y22 *= 25000.0;
+                x222 = (float) x22-50;
+                y222 = (float) y22-350;
+                SDL_SetRenderDrawColor(renderer,255,0,255,255);
+                SDL_RenderDrawPointF(renderer,x222,y222);
+                SDL_RenderPresent(renderer);
+                flag2=1;
+            }
+            if (flag1 && flag2)
+            {
+                SDL_SetRenderDrawColor(renderer,255,0,0,255);
+                SDL_RenderDrawLineF(renderer,x111,y111,x222,y222);
+                break;
+            }
+        }
+        return;
+    }
+    draw1(pre[g]);
+    double x11,x22,y11,y22;
+    float x111,x222,y111,y222;
+    long long u1=node[g];
+    long long v1 = node[pre[g]];
+    int flag1=0,flag2=0;
+    for (int j = 0; j <= cn; j++) {
+        if (u1 == ad[j].id) {
+            x11 = ad[j].lat;
+            y11 = ad[j].lon;
+            x11 -= 53.8;
+            x11 *= 65000.0;
+            y11 -= 1.53;
+            y11 *= 25000.0;
+            x111 = (float) x11 - 50;
+            y111 = (float) y11 - 350;
+            SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+            SDL_RenderDrawPointF(renderer, x111, y111);
+            SDL_RenderPresent(renderer);
+            flag1=1;
+        }
+        if (v1 == ad[j].id) {
+            x22 = ad[j].lat;
+            y22 = ad[j].lon;
+            x22 -= 53.8;
+            x22 *= 65000.0;
+            y22 -= 1.53;
+            y22 *= 25000.0;
+            x222 = (float) x22-50;
+            y222 = (float) y22-350;
+            SDL_SetRenderDrawColor(renderer,255,0,255,255);
+            SDL_RenderDrawPointF(renderer,x222,y222);
+            SDL_RenderPresent(renderer);
+            flag2=1;
+        }
+        if (flag1 && flag2)
+        {
+            SDL_SetRenderDrawColor(renderer,255,0,0,255);
+            SDL_RenderDrawLineF(renderer,x111,y111,x222,y222);
+            break;
+        }
+    }
+
+}
+void sdl2(int g)
+{
+    if(SDL_Init(SDL_INIT_VIDEO)){
+        printf("can not init video, %s",SDL_GetError());
+    }
+    SDL_Window  *window = SDL_CreateWindow(
+            "Map",SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,700,550,
+            SDL_WINDOW_SHOWN);
+    if(window==NULL){
+        printf("cannot create window,%s",SDL_GetError());
+    }
+    renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+    if(renderer==NULL){
+        printf("cannot create renderer,%s",SDL_GetError());
+    }
+    SDL_Surface *scream=SDL_GetWindowSurface(window);
+    SDL_Rect r={0,0,700,550};
+    SDL_FillRect(scream,&r,0xffffffff);
+    draw();
+    draw1(g);
+    event_loop();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 }
 void sdl1()
 {
@@ -298,7 +442,7 @@ void inteRFace()
                 {
                     printf("No map loading\n");
                     system("pause");
-                    continue;
+                    break;
                 }
                 if(b==0){
                     read_node_st();
@@ -319,6 +463,11 @@ void inteRFace()
                         printf("%lld",node[u]);
                         print_pre(v);
                         printf("\n");
+                        printf("to show the path on the map(Y) or not(any other key)\n");
+                        scanf("%s",&a);
+                        if(a[0]=='Y'&&a[1]=='\0'){
+                            sdl2(v);
+                        }
                     }
                 }system("pause");
                 break;
@@ -327,6 +476,12 @@ void inteRFace()
                 system("pause");
                 break;
             case 3:
+                if(b==-1)
+                {
+                    printf("No map loading\n");
+                    system("pause");
+                    break;
+                }
                 sdl1();
                 system("pause");
                 break;
