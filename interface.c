@@ -122,12 +122,10 @@ void read_node_st()
 void read_node_ed()
 {
     printf("please enter the end node ID:\n");
-    // system("cls");
-   // getchar();
     scanf("%s",a);
     long long x=0,y=1;
     int flag1=0;
-    for(int i=0;i<strlen(a);i++)
+    for(int i=0;i<strlen(a);i++)//Invalid character judgment
     {
         if(a[i]>'9'||a[i]<'0')
         {
@@ -164,7 +162,7 @@ void read_node_ed()
     if(v==-1){
         printf("Cannot find this node, please re-enter(Y) or exit(any other key) \n");
         scanf("%s",a);
-        if(a[0]=='Y'&&a[1]=='\0')
+        if(a[0]=='Y'&&a[1]=='\0')//Invalid character judgment
         {
             read_node_ed();
         }
@@ -183,7 +181,7 @@ void print_pre(int i){
     if(i==u)return;
     print_pre(pre[i]);
     printf("-->%lld",node[i]);
-}
+}//Print the path
 #define  print_ERROR(TEXT) printf("%s ERROR: %s\n",TEXT,SDL_GetError())
 void event_loop(){
     while (1){
@@ -205,7 +203,7 @@ void draw(){
     SDL_RenderDrawLineF(renderer,40,520,680,520);
     double x11,x22,y11,y22;
     float x111,x222,y111,y222;
-    for(int i=0;i<=cn;i++)
+    for(int i=0;i<=cn;i++)//Compute the coordinates of the points
     {
         x11 = ad[i].lat;
         y11 = ad[i].lon;
@@ -219,7 +217,7 @@ void draw(){
         SDL_RenderDrawPointF(renderer,x111,y111);
         SDL_RenderPresent(renderer);
     }
-    for(int i=0;i<=k;i++) {
+    for(int i=0;i<=k;i++) {//Compute the coordinates of the points
         int flag1 = 0;
         int flag2 = 0;
         long long u1 = ae[i].u;
@@ -239,7 +237,7 @@ void draw(){
                 SDL_RenderPresent(renderer);
                 flag1 = 1;
             }
-            if (v1 == ad[j].id) {
+            if (v1 == ad[j].id) {//Compute the coordinates of the points
                 x22 = ad[j].lat;
                 y22 = ad[j].lon;
                 x22 -= 53.8;
@@ -273,7 +271,7 @@ void draw1(int g)
         float x111,x222,y111,y222;
         int flag1=0,flag2=0;
         long long u2=node[g],v2=node[pre[g]];
-        for (int j = 0; j <= cn; j++) {
+        for (int j = 0; j <= cn; j++) {//Compute the coordinates of the points
             if (u2 == ad[j].id) {
                 x11 = ad[j].lat;
                 y11 = ad[j].lon;
@@ -288,7 +286,7 @@ void draw1(int g)
                 SDL_RenderPresent(renderer);
                 flag1=1;
             }
-            if (v2 == ad[j].id) {
+            if (v2 == ad[j].id) {//Compute the coordinates of the points
                 x22 = ad[j].lat;
                 y22 = ad[j].lon;
                 x22 -= 53.8;
@@ -317,7 +315,7 @@ void draw1(int g)
     long long u1=node[g];
     long long v1 = node[pre[g]];
     int flag1=0,flag2=0;
-    for (int j = 0; j <= cn; j++) {
+    for (int j = 0; j <= cn; j++) {//Compute the coordinates of the points
         if (u1 == ad[j].id) {
             x11 = ad[j].lat;
             y11 = ad[j].lon;
@@ -332,7 +330,7 @@ void draw1(int g)
             SDL_RenderPresent(renderer);
             flag1=1;
         }
-        if (v1 == ad[j].id) {
+        if (v1 == ad[j].id) {//Compute the coordinates of the points
             x22 = ad[j].lat;
             y22 = ad[j].lon;
             x22 -= 53.8;
@@ -417,7 +415,7 @@ void inteRFace()
         int key=0;
         int key1=1;
         scanf("%s",&a);
-        for(int i=0;i< strlen(a);i++)
+        for(int i=0;i< strlen(a);i++)//Invalid character judgment
         {
             if(a[i]>'9'||a[i]<'0')
             {

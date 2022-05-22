@@ -37,7 +37,7 @@ int find2(long long x,int l,int r)
 	else return find2(x,l,mid);
 }
 
-void add(int u,int v,double w)
+void add(int u,int v,double w)//Set up the chain forward star
 {
     static int c=0;
 	e[++c].w=w;
@@ -69,7 +69,7 @@ void build(int l,int r,int rt)
 	}
 	int mid=(l+r)>>1;
 	build(l,mid,ls);
-	build(mid+1,r,rs);
+	build(mid+1,r,rs);//Build trees on both sides
 	pushup(rt);
 }
 
@@ -88,8 +88,8 @@ void update(int l,int r,int rt,int p,double w)
 
 void dijkstra(int s) {
     build(1,cn,1);
-    update(1,cn,1,s,0);
-    for(int i=0;i<=maxn;i++)dis[i]=Inf;
+    update(1,cn,1,s,0);//build the tree
+    for(int i=0;i<=maxn;i++)dis[i]=Inf;//Relaxation operation
     dis[s]=0;
     while (tr[1]!=Inf) {
         int u=pos[1];
@@ -116,12 +116,12 @@ int read_map(FILE *file)
 
    while ( (fgets(buf, 200, file)) != NULL) {
 
-    	if(buf[1]=='l')
+    	if(buf[1]=='l')//Read a file from a string
     	{
     		int flag=1; 
     		long long u,v;
     		double w;
-    		for(int i=0;i!='>';i++)
+    		for(int i=0;i!='>';i++)//Read a file from a string
     		{
     			if(buf[i]=='n'&&flag&&buf[i+1]=='o')
     			{
@@ -137,12 +137,12 @@ int read_map(FILE *file)
     					if(buf[j]>='0'&&buf[j]<='9')
     						X=X*10+buf[j]-'0';
 						cnt1++;	
-					}X=X*Y;
+					}X=X*Y;//Judge the minus sign
 					u=X;
 					flag=0;
 					continue;
 				}
-				if(buf[i]=='n'&&!flag&&buf[i+1]=='o')
+				if(buf[i]=='n'&&!flag&&buf[i+1]=='o'
     			{
 					long long Y=1;
     				long long X=0;
@@ -174,7 +174,7 @@ int read_map(FILE *file)
 							ct=0;
 							continue;
 						}
-						if(buf[j]>='0'&&buf[j]<='9'&&ct)
+						if(buf[j]>='0'&&buf[j]<='9'&&ct)//Read a file from a string
     					X=X*10+buf[j]-'0';
     					if(buf[j]>='0'&&buf[j]<='9'&&!ct)
     					Y=Y*10+buf[j]-'0',tt*=10;
@@ -241,7 +241,7 @@ int read_map(FILE *file)
            }
            ad[cn].id=X;
            ad[cn].lat=ww;
-           ad[cn].lon=yy;
+           ad[cn].lon=yy;//add node
            cn++;
        }
    }
@@ -250,8 +250,8 @@ int read_map(FILE *file)
    {
        int U= find2(ae[i].u,0,cn-1);
        int V= find2(ae[i].v,0,cn-1);
-       add(U,V,ae[i].w);
-       add(V,U,ae[i].w);
+       add(U,V,ae[i].w);//add edge
+       add(V,U,ae[i].w);//add edge
    }
     return 0;
 }
