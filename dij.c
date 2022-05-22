@@ -113,7 +113,7 @@ int read_map(FILE *file)
     char temp[55];
     memset(temp,'\0',50);
     char buf[200];
-   int k=0;
+
    while ( (fgets(buf, 200, file)) != NULL) {
 
     	if(buf[1]=='l')
@@ -199,6 +199,49 @@ int read_map(FILE *file)
            }
            X=X*Y;
            node[cn]=X;
+           double ww,yy;
+           for(int i=9;buf[i]!='>';i++)
+           {
+               if(buf[i]=='l'&&buf[i+1]=='a')
+               {
+                   int ct=1;double X1=0,Y1=0,tt=1;
+
+                   for(int j=i+4;buf[j]!=' ';j++)
+                   {
+                       if(buf[j]=='.')
+                       {
+                           ct=0;
+                           continue;
+                       }
+                       if(buf[j]>='0'&&buf[j]<='9'&&ct)
+                           X1=X1*10+buf[j]-'0';
+                       if(buf[j]>='0'&&buf[j]<='9'&&!ct)
+                           Y1=Y1*10+buf[j]-'0',tt*=10;
+                   }
+                   ww=X1+Y1/tt;
+               }
+               if(buf[i]=='l'&&buf[i+1]=='o')
+               {
+                   int ct=1;double X1=0,Y1=0,tt=1;
+
+                   for(int j=i+5;buf[j]!=' ';j++)
+                   {
+                       if(buf[j]=='.')
+                       {
+                           ct=0;
+                           continue;
+                       }
+                       if(buf[j]>='0'&&buf[j]<='9'&&ct)
+                           X1=X1*10+buf[j]-'0';
+                       if(buf[j]>='0'&&buf[j]<='9'&&!ct)
+                           Y1=Y1*10+buf[j]-'0',tt*=10;
+                   }
+                   yy=X1+Y1/tt;
+               }
+           }
+           ad[cn].id=X;
+           ad[cn].lat=ww;
+           ad[cn].lon=yy;
            cn++;
        }
    }

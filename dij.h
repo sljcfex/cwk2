@@ -18,8 +18,12 @@ struct add_edge{
     double w;
 };
 
-
-
+struct add_node{
+    long long id;
+    double lat,lon;
+};
+extern int k;
+extern struct add_node ad[maxn];
 extern struct edge e[maxn];
 extern struct add_edge ae[maxn];
 extern int cn;

@@ -3,10 +3,12 @@
 #include"dij.h"
 #include"interface.h"
 #include <stdlib.h>
-
+#include <SDL2/SDL.h>
 struct edge e[maxn];
 struct add_edge ae[maxn];
+struct add_node ad[maxn];
 int cn;
+int k;
 double tr[maxn],dis[maxn];
 int cnt;
 int head[maxn],pos[maxn],pre[maxn];
@@ -181,6 +183,83 @@ void print_pre(int i){
     print_pre(pre[i]);
     printf("-->%lld",node[i]);
 }
+#define  print_ERROR(TEXT) printf("%s ERROR: %s\n",TEXT,SDL_GetError())
+void event_loop(){
+    while (1){
+        SDL_Event event;
+        if(SDL_PollEvent(&event)){
+            if(event.type==SDL_QUIT){
+                break;
+            }
+        }
+    }
+}
+SDL_Renderer *renderer;
+void draw(){
+    SDL_SetRenderDrawColor(renderer,255,255,255,255);
+    SDL_RenderClear(renderer);
+
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    double x11,x22,y11,y22;
+    for(int i=0;i<=k;i++) {
+        int flag1 = 0;
+        int flag2 = 0;
+        long long u1 = ae[i].u;
+        long long v1 = ae[i].v;
+        for (int j = 0; j <= cn; j++) {
+            if (u1 == ad[j].id) {
+                x11 = ad[j].lat;
+                y11 = ad[j].lon;
+                flag1 = 1;
+            }
+            if (v1 == ad[j].id) {
+                x22 = ad[j].lat;
+                y22 = ad[j].lon;
+                flag2 = 1;
+            }
+            if (flag1 && flag2)break;
+        }
+        if(!flag1||!flag2)continue;
+        x11 -= 53.8;
+        x11 *= 50000.0;
+        x22 -= 53.8;
+        x22 *= 50000.0;
+        y11 -= 1.53;
+        y11 *= 30000.0;
+        y22 -= 1.53;
+        y22 *= 30000.0;
+        float x111 = (float) x11-50;
+        float x222 = (float) x22-50;
+        float y111 = (float) y11-400;
+        float y222 = (float) y22-400;
+        SDL_RenderDrawLineF(renderer,x111,y111,x222,y222);
+    }
+    SDL_RenderPresent(renderer);
+}
+void sdl1()
+{
+    if(SDL_Init(SDL_INIT_VIDEO)){
+        printf("can not init video, %s",SDL_GetError());
+    }
+    SDL_Window  *window = SDL_CreateWindow(
+            "Map",SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,700,550,
+            SDL_WINDOW_SHOWN);
+    if(window==NULL){
+        printf("cannot create window,%s",SDL_GetError());
+    }
+    renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
+    if(renderer==NULL){
+        printf("cannot create renderer,%s",SDL_GetError());
+    }
+    SDL_Surface *scream=SDL_GetWindowSurface(window);
+    SDL_Rect r={0,0,700,550};
+    SDL_FillRect(scream,&r,0xffffffff);
+    draw();
+    event_loop();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+}
 void inteRFace()
 {
     welcome();
@@ -245,6 +324,10 @@ void inteRFace()
                 break;
             case 2:
                 load_map();
+                system("pause");
+                break;
+            case 3:
+                sdl1();
                 system("pause");
                 break;
             default:
